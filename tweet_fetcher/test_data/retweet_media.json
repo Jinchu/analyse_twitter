@@ -1,0 +1,475 @@
+{
+  "contributors": null,
+  "coordinates": null,
+  "created_at": "Mon Jul 27 06:26:44 +0000 2020",
+  "display_text_range": [
+    0,
+    67
+  ],
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.twitter.com/sx5RXlozqH",
+        "expanded_url": "https://twitter.com/nescartridges/status/1287489225982652418/video/1",
+        "id": 1287489195821367300,
+        "id_str": "1287489195821367300",
+        "indices": [
+          44,
+          67
+        ],
+        "media_url": "http://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+        "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+        "sizes": {
+          "large": {
+            "h": 720,
+            "resize": "fit",
+            "w": 1280
+          },
+          "medium": {
+            "h": 675,
+            "resize": "fit",
+            "w": 1200
+          },
+          "small": {
+            "h": 383,
+            "resize": "fit",
+            "w": 680
+          },
+          "thumb": {
+            "h": 150,
+            "resize": "crop",
+            "w": 150
+          }
+        },
+        "source_status_id": 1287489225982652418,
+        "source_status_id_str": "1287489225982652418",
+        "source_user_id": 912074862797185024,
+        "source_user_id_str": "912074862797185024",
+        "type": "photo",
+        "url": "https://t.co/sx5RXlozqH"
+      }
+    ],
+    "symbols": [],
+    "urls": [],
+    "user_mentions": [
+      {
+        "id": 912074862797185024,
+        "id_str": "912074862797185024",
+        "indices": [
+          3,
+          17
+        ],
+        "name": "whopper \u26e9",
+        "screen_name": "nescartridges"
+      }
+    ]
+  },
+  "extended_entities": {
+    "media": [
+      {
+        "additional_media_info": {
+          "monetizable": false,
+          "source_user": {
+            "contributors_enabled": false,
+            "created_at": "Sun Sep 24 22:02:47 +0000 2017",
+            "default_profile": false,
+            "default_profile_image": false,
+            "description": "Becca, She/Her! | The Shotos/Spacies connoisseur! | Playing for GGs/Gleam and @Taco_Bell_ES| Lab Monster | NJ/PA \ud83c\uddfa\ud83c\uddf8 | #BlackLivesMatter | priv: @smscartridges",
+            "entities": {
+              "description": {
+                "urls": []
+              },
+              "url": {
+                "urls": [
+                  {
+                    "display_url": "revbecca.carrd.co",
+                    "expanded_url": "http://revbecca.carrd.co",
+                    "indices": [
+                      0,
+                      23
+                    ],
+                    "url": "https://t.co/4NZNo42QUD"
+                  }
+                ]
+              }
+            },
+            "favourites_count": 82233,
+            "follow_request_sent": false,
+            "followers_count": 1022,
+            "following": false,
+            "friends_count": 1555,
+            "geo_enabled": false,
+            "has_extended_profile": true,
+            "id": 912074862797185024,
+            "id_str": "912074862797185024",
+            "is_translation_enabled": false,
+            "is_translator": false,
+            "lang": null,
+            "listed_count": 4,
+            "location": "https://discord.gg/rnk9V2Q",
+            "name": "baja blast \u26e9",
+            "notifications": false,
+            "profile_background_color": "000000",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/912074862797185024/1598720472",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1295096719949037569/30SMwLWi_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1295096719949037569/30SMwLWi_normal.jpg",
+            "profile_link_color": "0000AA",
+            "profile_sidebar_border_color": "000000",
+            "profile_sidebar_fill_color": "000000",
+            "profile_text_color": "000000",
+            "profile_use_background_image": false,
+            "protected": false,
+            "screen_name": "nescartridges",
+            "statuses_count": 21030,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": "https://t.co/4NZNo42QUD",
+            "utc_offset": null,
+            "verified": false
+          }
+        },
+        "display_url": "pic.twitter.com/sx5RXlozqH",
+        "expanded_url": "https://twitter.com/nescartridges/status/1287489225982652418/video/1",
+        "id": 1287489195821367300,
+        "id_str": "1287489195821367300",
+        "indices": [
+          44,
+          67
+        ],
+        "media_url": "http://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+        "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+        "sizes": {
+          "large": {
+            "h": 720,
+            "resize": "fit",
+            "w": 1280
+          },
+          "medium": {
+            "h": 675,
+            "resize": "fit",
+            "w": 1200
+          },
+          "small": {
+            "h": 383,
+            "resize": "fit",
+            "w": 680
+          },
+          "thumb": {
+            "h": 150,
+            "resize": "crop",
+            "w": 150
+          }
+        },
+        "source_status_id": 1287489225982652418,
+        "source_status_id_str": "1287489225982652418",
+        "source_user_id": 912074862797185024,
+        "source_user_id_str": "912074862797185024",
+        "type": "video",
+        "url": "https://t.co/sx5RXlozqH",
+        "video_info": {
+          "aspect_ratio": [
+            16,
+            9
+          ],
+          "duration_millis": 18000,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/pl/bdGjpvWF7otB1Ttg.m3u8?tag=10"
+            },
+            {
+              "bitrate": 832000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/vid/640x360/Fo2R7GBERg97UVHT.mp4?tag=10"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/vid/1280x720/wPGy2S5xYzApSsyH.mp4?tag=10"
+            },
+            {
+              "bitrate": 256000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/vid/480x270/oY66YPmszOtQ2-6m.mp4?tag=10"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "favorite_count": 0,
+  "favorited": false,
+  "full_text": "RT @nescartridges: Nintendo fans rn be like https://t.co/sx5RXlozqH",
+  "geo": null,
+  "id": 1287635516226248706,
+  "id_str": "1287635516226248706",
+  "in_reply_to_screen_name": null,
+  "in_reply_to_status_id": null,
+  "in_reply_to_status_id_str": null,
+  "in_reply_to_user_id": null,
+  "in_reply_to_user_id_str": null,
+  "is_quote_status": false,
+  "lang": "en",
+  "place": null,
+  "possibly_sensitive": false,
+  "retweet_count": 4157,
+  "retweeted": false,
+  "retweeted_status": {
+    "contributors": null,
+    "coordinates": null,
+    "created_at": "Sun Jul 26 20:45:26 +0000 2020",
+    "display_text_range": [
+      0,
+      24
+    ],
+    "entities": {
+      "hashtags": [],
+      "media": [
+        {
+          "display_url": "pic.twitter.com/sx5RXlozqH",
+          "expanded_url": "https://twitter.com/nescartridges/status/1287489225982652418/video/1",
+          "id": 1287489195821367300,
+          "id_str": "1287489195821367300",
+          "indices": [
+            25,
+            48
+          ],
+          "media_url": "http://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+          "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+          "sizes": {
+            "large": {
+              "h": 720,
+              "resize": "fit",
+              "w": 1280
+            },
+            "medium": {
+              "h": 675,
+              "resize": "fit",
+              "w": 1200
+            },
+            "small": {
+              "h": 383,
+              "resize": "fit",
+              "w": 680
+            },
+            "thumb": {
+              "h": 150,
+              "resize": "crop",
+              "w": 150
+            }
+          },
+          "type": "photo",
+          "url": "https://t.co/sx5RXlozqH"
+        }
+      ],
+      "symbols": [],
+      "urls": [],
+      "user_mentions": []
+    },
+    "extended_entities": {
+      "media": [
+        {
+          "additional_media_info": {
+            "monetizable": false
+          },
+          "display_url": "pic.twitter.com/sx5RXlozqH",
+          "expanded_url": "https://twitter.com/nescartridges/status/1287489225982652418/video/1",
+          "id": 1287489195821367300,
+          "id_str": "1287489195821367300",
+          "indices": [
+            25,
+            48
+          ],
+          "media_url": "http://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+          "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1287489195821367300/pu/img/_c7aUHVPbgJ57xBW.jpg",
+          "sizes": {
+            "large": {
+              "h": 720,
+              "resize": "fit",
+              "w": 1280
+            },
+            "medium": {
+              "h": 675,
+              "resize": "fit",
+              "w": 1200
+            },
+            "small": {
+              "h": 383,
+              "resize": "fit",
+              "w": 680
+            },
+            "thumb": {
+              "h": 150,
+              "resize": "crop",
+              "w": 150
+            }
+          },
+          "type": "video",
+          "url": "https://t.co/sx5RXlozqH",
+          "video_info": {
+            "aspect_ratio": [
+              16,
+              9
+            ],
+            "duration_millis": 18000,
+            "variants": [
+              {
+                "content_type": "application/x-mpegURL",
+                "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/pl/bdGjpvWF7otB1Ttg.m3u8?tag=10"
+              },
+              {
+                "bitrate": 832000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/vid/640x360/Fo2R7GBERg97UVHT.mp4?tag=10"
+              },
+              {
+                "bitrate": 2176000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/vid/1280x720/wPGy2S5xYzApSsyH.mp4?tag=10"
+              },
+              {
+                "bitrate": 256000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/ext_tw_video/1287489195821367300/pu/vid/480x270/oY66YPmszOtQ2-6m.mp4?tag=10"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "favorite_count": 17275,
+    "favorited": false,
+    "full_text": "Nintendo fans rn be like https://t.co/sx5RXlozqH",
+    "geo": null,
+    "id": 1287489225982652418,
+    "id_str": "1287489225982652418",
+    "in_reply_to_screen_name": null,
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "is_quote_status": false,
+    "lang": "en",
+    "place": null,
+    "possibly_sensitive": false,
+    "retweet_count": 4157,
+    "retweeted": false,
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+    "truncated": false,
+    "user": {
+      "contributors_enabled": false,
+      "created_at": "Sun Sep 24 22:02:47 +0000 2017",
+      "default_profile": false,
+      "default_profile_image": false,
+      "description": "Becca, She/Her! | The Shotos/Spacies connoisseur! | Playing for GGs/Gleam and @Taco_Bell_ES| Lab Monster | NJ/PA \ud83c\uddfa\ud83c\uddf8 | #BlackLivesMatter | priv: @smscartridges",
+      "entities": {
+        "description": {
+          "urls": []
+        },
+        "url": {
+          "urls": [
+            {
+              "display_url": "revbecca.carrd.co",
+              "expanded_url": "http://revbecca.carrd.co",
+              "indices": [
+                0,
+                23
+              ],
+              "url": "https://t.co/4NZNo42QUD"
+            }
+          ]
+        }
+      },
+      "favourites_count": 82233,
+      "follow_request_sent": false,
+      "followers_count": 1022,
+      "following": false,
+      "friends_count": 1555,
+      "geo_enabled": false,
+      "has_extended_profile": true,
+      "id": 912074862797185024,
+      "id_str": "912074862797185024",
+      "is_translation_enabled": false,
+      "is_translator": false,
+      "lang": null,
+      "listed_count": 4,
+      "location": "https://discord.gg/rnk9V2Q",
+      "name": "baja blast \u26e9",
+      "notifications": false,
+      "profile_background_color": "000000",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": false,
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/912074862797185024/1598720472",
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1295096719949037569/30SMwLWi_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1295096719949037569/30SMwLWi_normal.jpg",
+      "profile_link_color": "0000AA",
+      "profile_sidebar_border_color": "000000",
+      "profile_sidebar_fill_color": "000000",
+      "profile_text_color": "000000",
+      "profile_use_background_image": false,
+      "protected": false,
+      "screen_name": "nescartridges",
+      "statuses_count": 21030,
+      "time_zone": null,
+      "translator_type": "none",
+      "url": "https://t.co/4NZNo42QUD",
+      "utc_offset": null,
+      "verified": false
+    }
+  },
+  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+  "truncated": false,
+  "user": {
+    "contributors_enabled": false,
+    "created_at": "Sat Jul 06 00:52:52 +0000 2013",
+    "default_profile": true,
+    "default_profile_image": false,
+    "description": "Issae",
+    "entities": {
+      "description": {
+        "urls": []
+      }
+    },
+    "favourites_count": 6071,
+    "follow_request_sent": false,
+    "followers_count": 50,
+    "following": false,
+    "friends_count": 1405,
+    "geo_enabled": false,
+    "has_extended_profile": false,
+    "id": 1571691295,
+    "id_str": "1571691295",
+    "is_translation_enabled": false,
+    "is_translator": false,
+    "lang": null,
+    "listed_count": 2,
+    "location": "Brazil",
+    "name": "jayvee",
+    "notifications": false,
+    "profile_background_color": "C0DEED",
+    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_tile": false,
+    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1571691295/1453471605",
+    "profile_image_url": "http://pbs.twimg.com/profile_images/378800000114233718/badce657444772338ac32ea622421544_normal.jpeg",
+    "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000114233718/badce657444772338ac32ea622421544_normal.jpeg",
+    "profile_link_color": "1DA1F2",
+    "profile_sidebar_border_color": "C0DEED",
+    "profile_sidebar_fill_color": "DDEEF6",
+    "profile_text_color": "333333",
+    "profile_use_background_image": true,
+    "protected": false,
+    "screen_name": "jvitorpalo",
+    "statuses_count": 224,
+    "time_zone": null,
+    "translator_type": "none",
+    "url": null,
+    "utc_offset": null,
+    "verified": false
+  }
+}
