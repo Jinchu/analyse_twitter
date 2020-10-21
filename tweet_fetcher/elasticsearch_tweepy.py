@@ -172,6 +172,7 @@ class ElasticSearchTweepy(API):
         return -1
 
     # ToDo: take the most recent id as variable and return the bulk string as a variable.
+    # https://github.com/Jinchu/analyse_twitter/issues/1#issue-726773433
     def search_term_to_es(self, search_term, es_handle, debug = False):
         """ Searches tweets matching the given search term and pushes them to ElasticSearch. """
         current_id = -1
