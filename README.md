@@ -14,7 +14,7 @@ You also need a running [ElasticSearch](https://developer.twitter.com/en/portal/
 
       pip install tweepy
  
-- [Python ElasticSearch Client](https://github.com/elastic/elasticsearch-py)::
+- [Python ElasticSearch Client](https://github.com/elastic/elasticsearch-py)
 
       python3 -m pip install elasticsearch
 
