@@ -178,7 +178,21 @@ class ElasticSearchTweepy(API):
         current_id = -1
         search_results = []
 
-        query = '{"query": {"match_all": {}}, "size": 1, "sort": [ {"@timestamp": {"order": "desc"} } ] }'
+        query = """
+        {
+            "query":
+                {
+                    "match_all": {}
+                },
+                "size": 1,
+                "sort":
+                    [
+                        {
+                            "@timestamp": {"order": "desc"}
+                        }
+                    ]
+        }
+        """
         most_recent_tweet = es_handle.search(index=self.index, body = query)
 
         try:
