@@ -21,7 +21,7 @@ You also need a running [ElasticSearch](https://developer.twitter.com/en/portal/
 
 ## Usage
 
-The help message can be revealed with command::
+The help message can be revealed with command
 
       $ python3 -m pip install elasticsearch
       usage: tweet_fetcher [-h] [-c CONFIG] [-t TARGET] [-v] [-s TERM] [-m MODE]
