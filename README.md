@@ -10,7 +10,7 @@ You also need a running [ElasticSearch](https://developer.twitter.com/en/portal/
 ## Prerequisites
 
 - [Python3](https://docs.python.org/3/tutorial/introduction.html#)
-- [Tweepy](https://github.com/tweepy/tweepy)::
+- [Tweepy](https://github.com/tweepy/tweepy)
 
       pip install tweepy
  
