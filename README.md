@@ -1,4 +1,5 @@
 # Tweet Fetcher
+
 A tool for searching tweets from twitter and feeding them to ElasticSearch. ElasticSearch and Kibana will do all the heavy lifting for the analysis part. This tool supports several modes. From following a list of users to recording certain search results e.g. hashtags. You can also write results on a disc in case you don't have an ElasticSearch cluster available at the moment and you want to return to the things you have recorded later.
 
 ## Requirements
@@ -13,19 +14,18 @@ You also need a running [ElasticSearch](https://developer.twitter.com/en/portal/
 - [Tweepy](https://github.com/tweepy/tweepy)
 
       pip install tweepy
- 
+
 - [Python ElasticSearch Client](https://github.com/elastic/elasticsearch-py)
 
       python3 -m pip install elasticsearch
-
 
 ## Usage
 
 The help message can be revealed with command
 
-      $ python3 -m pip install elasticsearch
+      $ python3 python3 tweet_fetcher -h
       usage: tweet_fetcher [-h] [-c CONFIG] [-t TARGET] [-v] [-s TERM] [-m MODE]
-                     [-j PROC_COUNT] [-i INDEX] [-p PATH]
+                           [-j PROC_COUNT] [-i INDEX] [-p PATH]
 
       Fetch tweets Twitter´s developer API. Push the tweets to elastic search.
 
@@ -40,4 +40,3 @@ The help message can be revealed with command
         -i INDEX       Name of the index to be used.
         -p PATH        Path to file where the timeline will be stored. Used with
                        _to_file
-
