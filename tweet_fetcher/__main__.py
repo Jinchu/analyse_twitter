@@ -12,7 +12,9 @@ def set_arguments():
     """ Function for argument parser """
     parser = argparse.ArgumentParser(
         description = 'Fetch tweets Twitter´s developer API. ' +
-                        'Push the tweets to elastic search.')
+                        'Push the tweets to elastic search.\n' +
+                        'Networking debuging can be done useing curl: ' +
+                        'curl http://localhost:9200/_cluster/health\?pretty')
     parser.add_argument('-c', dest = 'config', type = str,
                         help = 'Path to the configuration file')
     parser.add_argument('-t', dest = 'target', type = str,
