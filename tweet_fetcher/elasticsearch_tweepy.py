@@ -171,13 +171,9 @@ class ElasticSearchTweepy(API):
         return -1. """
         return -1
 
-    # ToDo: take the most recent id as variable and return the bulk string as a variable.
-    # https://github.com/Jinchu/analyse_twitter/issues/1#issue-726773433
-    def search_term_to_es(self, search_term, es_handle, debug = False):
-        """ Searches tweets matching the given search term and pushes them to ElasticSearch. """
-        current_id = -1
-        search_results = []
-
+    def get_id_most_recent_tweet_in_es_index(self, es_handle, debug = False):
+        """ Returns the ID of the tweet with most recent @timestamp in the index. Returns -1,
+        when index is empty. """
         query = """
         {
             "query":
@@ -206,8 +202,15 @@ class ElasticSearchTweepy(API):
                 print('ElasticSearch is empty.')
             most_recent_id = '-1'
 
-        # Limit comes for the Twitter API rate limit:  180 requests / 15-min window
-        # https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets
+        return most_recent_id
+
+    def fetch_search_results_from_twitter(self, search_term, most_recent_id, debug = False):
+        """ Fetches some tweets matching to search term. Returns them as a list of JSON objects
+        in a string.
+        https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets """
+        current_id = -1
+        search_results = []
+
         for i in range(80):
             if debug:
                 print(i, end=', ', flush = True)
@@ -225,8 +228,10 @@ class ElasticSearchTweepy(API):
             current_id = current_results[-1].id - 1
             search_results.extend(current_results)
 
-        bulk_string = self.create_es_bulk_string_from_timeline(search_results)
+        return self.create_es_bulk_string_from_timeline(search_results)
 
+    def push_bulk_string_tweets_to_es(self, es_handle, bulk_string, debug = False):
+        """ Push the tweets in bulk_string method to give Elastic Search. """
         res = es_handle.bulk(bulk_string, index=self.index)
 
         if res['errors']:
@@ -237,6 +242,18 @@ class ElasticSearchTweepy(API):
             if debug:
                 print("Clean run!")
         return True
+
+    def search_term_to_es(self, search_term, es_handle, debug = False):
+        """ This method has been changed to a wrapper. Searches tweets matching the given search
+        term and pushes them to ElasticSearch. """
+
+        most_recent = self.get_id_most_recent_tweet_in_es_index(es_handle = es_handle,
+                                                                debug = debug)
+        bulk_string = self.fetch_search_results_from_twitter(search_term,
+                                                             most_recent_id = most_recent,
+                                                             debug = debug)
+        return self.push_bulk_string_tweets_to_es(es_handle, bulk_string, debug = debug)
+
 
     def search_term_to_file(self, search_term, file_path, debug=False):
         """ Searches tweets matching the given search term and store them in pickle file. """
