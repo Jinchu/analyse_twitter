@@ -71,52 +71,39 @@ class TestTermSearchWithFile(unittest.TestCase):
     def test_search_term_rate_limit_with_file(self):
         test_api = MockTweepy()
 
-        test_file_path = './test_data/create_search_test.p'
-        test_api.search_term_to_file('Rate limit', file_path = test_file_path)
-        self.assertTrue(os.path.exists(test_file_path))
+        test_file_path = './test_data/create_search_test'
+        test_time_path = './test_data/no_data_time.txt'
+
+        full_test_path = test_api.search_term_to_file('Rate limit', file_path = test_file_path,
+                                     time_stamp = test_time_path)
+        self.assertFalse(os.path.exists(full_test_path))
 
     def test_search_term_create_new_file(self):
         test_api = MockTweepy()
 
-        test_file_path = './test_data/create_search_test.p'
+        test_file_path = './test_data/create_search_test'
+        test_time_path = './test_data/data_time.txt'
 
         if os.path.exists(test_file_path):
             os.remove(test_file_path)
+        if os.path.exists(test_file_path):
+            os.remove(test_time_path)
 
-        test_api.search_term_to_file('dummy_search', file_path = test_file_path)
-        self.assertTrue(os.path.exists(test_file_path))
+        full_test_path = test_api.search_term_to_file('dummy_search', file_path = test_file_path,
+                                                      time_stamp = test_time_path)
+        self.assertTrue(os.path.exists(full_test_path))
 
-        with open(test_file_path, 'rb') as handle:
-            test_search_res = pickle.load(handle)
+        with open(full_test_path, 'rb') as handle:
+            test_search_lines = handle.readlines()
 
-        self.assertEqual(len(test_search_res), 2)
-        self.assertEqual(test_search_res[1]._json['created_at'], 'Sat Sep 12 13:36:15 +0000 2020')
-        self.assertEqual(test_api.latest_since, -1)
-        os.remove(test_file_path)
+        self.assertEqual(len(test_search_lines), 4)
+        test_search_res = json.loads(test_search_lines[3])
+        self.assertEqual(test_search_res['@timestamp'], '2020-09-12T13:36:15')
+        os.remove(full_test_path)
 
-    def test_search_term_update_old_file(self):
-        test_api = MockTweepy()
-
-        test_file_path = './test_data/old_file.p'
-
-        self.assertTrue(os.path.exists(test_file_path), 'Precondition for this test.')
-
-        # store the original state of the file
-        with open(test_file_path, 'rb') as handle:
-            revert_mod = pickle.load(handle)
-
-        test_api.search_term_to_file('dummy_search', file_path = test_file_path)
-        self.assertTrue(os.path.exists(test_file_path))
-
-        with open(test_file_path, 'rb') as handle:
-            test_search_res = pickle.load(handle)
-
-        self.assertEqual(len(test_search_res), 3)
-        self.assertEqual(test_search_res[1]._json['created_at'], 'Sat Sep 12 13:36:15 +0000 2020')
-        self.assertEqual(test_api.latest_since, 1304775835556237314)
-
-        with open(test_file_path, 'wb') as handle:
-            pickle.dump(revert_mod, handle)
+    ## This test has been deprecated. In order to keep filesizes reasonable new searches are stored
+    #  in new files with prepended timestamps in the file name.
+    # def test_search_term_update_old_file(self):
 
 class TestUserTimelineToEs(unittest.TestCase):
     def test_user_timeline_to_elasticsears(self):

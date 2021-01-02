@@ -228,7 +228,7 @@ class ElasticSearchTweepy(API):
             current_id = current_results[-1].id - 1
             search_results.extend(current_results)
 
-        return self.create_es_bulk_string_from_timeline(search_results)
+        return search_results
 
     def push_bulk_string_tweets_to_es(self, es_handle, bulk_string, debug = False):
         """ Push the tweets in bulk_string method to give Elastic Search. """
@@ -249,65 +249,39 @@ class ElasticSearchTweepy(API):
 
         most_recent = self.get_id_most_recent_tweet_in_es_index(es_handle = es_handle,
                                                                 debug = debug)
-        bulk_string = self.fetch_search_results_from_twitter(search_term,
-                                                             most_recent_id = most_recent,
-                                                             debug = debug)
+        results = self.fetch_search_results_from_twitter(search_term,
+                                                         most_recent_id = most_recent,
+                                                         debug = debug)
+        bulk_string = self.create_es_bulk_string_from_timeline(results)
+
         return self.push_bulk_string_tweets_to_es(es_handle, bulk_string, debug = debug)
 
-
-    def search_term_to_file(self, search_term, file_path, debug=False):
+    def search_term_to_file(self, search_term, file_path, time_stamp, debug=False):
         """ Searches tweets matching the given search term and store them in pickle file. """
 
         try:
-            with open(file_path, 'rb') as handle:
-                search_results = pickle.load(handle)
-            most_recent_id = search_results[0].id
+            with open(time_stamp, 'r') as handle:
+                most_recent = int(handle.read())
         except FileNotFoundError:
             # Starting from scratch. Getting everything we can from Twitter.
-            most_recent_id = -1
-            search_results = []
+            most_recent = -1
 
-        current_id = -1
+        results = self.fetch_search_results_from_twitter(search_term,
+                                                         most_recent_id = most_recent,
+                                                         debug = debug)
+        file_path_stamp = ''
+        if len(results) > 0:        # In case there was no results. Do nothing.
+            most_recent_id = results[0].id
+            bulk_string = self.create_es_bulk_string_from_timeline(results)
 
-        # Limit comes for the Twitter API rate limit:  180 requests / 15-min window
-        # https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets
-        for i in range(80):
-            if debug:
-                print(i, end=', ', flush = True)
-            try:
-                current_results = self.search(search_term, count = 100, result_type = 'recent',
-                                              max_id = current_id, since_id = most_recent_id)
-            except RateLimitError:
-                print('Rate limit exceeded!')
-                break
+            file_path_stamp = file_path + datetime.now().strftime("-%y%m%d-%H%M%S") + '.txt'
+            with open(file_path_stamp, 'w') as handle:
+                handle.write(bulk_string)
 
-            if len(current_results) <= 0:
-                if debug:
-                    print ('The search has been exhausted')
-                break
-            current_id = current_results[-1].id - 1
-            current_results.extend(search_results)
-            search_results = current_results
+            with open(time_stamp, 'w') as handle:
+                handle.write(str(most_recent_id))
 
-        with open(file_path, 'wb') as handle:
-            pickle.dump(search_results, handle)
-
-    def send_tweets_from_file_to_es(self, es_handle, file_path, debug=False):
-        """ Read a pickle file and send the contained timeline of tweets to ElasticSearch. """
-
-        with open(file_path, 'rb') as handle:
-                search_results = pickle.load(handle)
-        bulk_string = self.create_es_bulk_string_from_timeline(search_results)
-
-        res = es_handle.bulk(bulk_string, index=self.index)
-        if res['errors']:
-            if debug:
-                print("At least some ingests FAILED!")
-            return False
-        else:
-            if debug:
-                print("Clean run!")
-        return True
+        return file_path_stamp
 
     def clean_up_friends_file(self, storage_path, debug=False):
         """ Cleans up the generated file of user_ids. For example users that have not tweeted for

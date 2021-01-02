@@ -31,6 +31,8 @@ def set_arguments():
                         help = 'Name of the index to be used.')
     parser.add_argument('-p', dest = 'path', type = str,
                         help = 'Path to file where the timeline will be stored. Used with _to_file')
+    parser.add_argument('-q', dest = 'time_path', type = str,
+                        help = 'Path to timestamp file')
     parser.set_defaults(debug = False, mode = 'user', proc_count = 4)
 
     arguments = parser.parse_args()
@@ -112,20 +114,19 @@ def main():
             parser.print_help()
             return -1
         if args.path is None:
-            print("In this mode a path to storage file (pickle) needs to be defined.")
+            print("In this mode a path to storage file needs to be defined.")
             parser.print_help()
             return -1
-        twitter_api.search_term_to_file(args.term, file_path = args.path, debug = args.debug)
+        twitter_api.index = index_name
+        twitter_api.search_term_to_file(args.term, file_path = args.path,
+                                        time_stamp = args.time_path, debug = args.debug)
 
     elif args.mode == "analyse_file":
         if args.path is None:
-            print("In this mode a path to storage file (pickle) needs to be defined.")
+            print("Deprecated: In this mode a path to storage file (pickle) needs to be defined.")
             parser.print_help()
             return -1
-        es = Elasticsearch()
-        twitter_api.set_es_index(index_name, es, args.debug)
-        twitter_api.send_tweets_from_file_to_es(es_handle = es, file_path = args.path,
-                                                debug = args.debug)
+        return -1
 
     elif args.mode == "clean":
         storage_path = config['Local Storage']['users_path']
