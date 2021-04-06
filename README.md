@@ -11,8 +11,8 @@ want to return to the things you have recorded later.
 In order to access tweets you need to have an app in
 [Twitter Developer Portal](https://developer.twitter.com/en/portal). To get one you need a Twitter
 account. Login and surf to the portal, where you can leave an application for API access. It takes
-a while for twitter to review your application. For me it took two weeks and required responding to
-a couple of emails with further questions.
+a while for twitter to review your application. For me it took two weeks and
+required responding to a couple of emails with further questions.
 
 You also need a running [ElasticSearch](https://developer.twitter.com/en/portal/) cluster. I am
 running it in a
