@@ -1,0 +1,15 @@
+[Twitter API]
+acc_token = 1264527096765956097-m2ZGjPjxxBlnHha6GeEPFIGwSAyMGj
+acc_secret = 3OnkfAycaPSAx10oTttiENSNx5mt51IV0mxPV8bjiIM82
+api_secret = BykjgajddP5QcNJ4Hygg9p908y5VG4e65IQvAoFqxifkEeKrVi
+api_key = FJX8UOgcbd0Vspird3Blg7OZN
+
+[Local Storage]
+users_path = /home/psimolin/infosec_user_ids.txt
+index_name = twitter-bubble-infosec
+
+[ElasticSearch]
+url = https://localhost:9200
+auth_user = example-user
+use_ssl = True
+verify_certs = True
