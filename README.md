@@ -35,20 +35,25 @@ container.
 
 The help message can be revealed with command
 
-      $ python3 python3 tweet_fetcher -h
+      $ python3 tweet_fetcher -h
       usage: tweet_fetcher [-h] [-c CONFIG] [-t TARGET] [-v] [-s TERM] [-m MODE]
-                           [-j PROC_COUNT] [-i INDEX] [-p PATH]
+      [-j PROC_COUNT] [-i INDEX] [-p PATH] [-q TIME_PATH]
 
       Fetch tweets Twitter´s developer API. Push the tweets to elastic search.
+      Networking debuging can be done useing curl:
+      curl http://localhost:9200/_cluster/health\?pretty
+
+      To promote safe development practises pass the elasticsearch password as an enviromental variable ELASTICSEARCH_PASS.
 
       optional arguments:
-        -h, --help     show this help message and exit
-        -c CONFIG      Path to the configuration file
-        -t TARGET      The twitter handle of the target user
-        -v             Enable verbose output. Optional
-        -s TERM        Search tweets with this term.
-        -m MODE        Mode of operation: user, term, list, generate.
-        -j PROC_COUNT  Number of parallel processes used in list mode.
-        -i INDEX       Name of the index to be used.
-        -p PATH        Path to file where the timeline will be stored. Used with
-                       _to_file
+      -h, --help     show this help message and exit
+      -c CONFIG      Path to the configuration file
+      -t TARGET      The twitter handle of the target user
+      -v             Enable verbose output. Optional
+      -s TERM        Search tweets with this term.
+      -m MODE        Mode of operation: user, term, list, generate.
+      -j PROC_COUNT  Number of parallel processes used in list mode.
+      -i INDEX       Name of the index to be used.
+      -p PATH        Path to file where the timeline will be stored. Used with
+                     _to_file
+      -q TIME_PATH   Path to timestamp file
