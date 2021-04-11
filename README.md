@@ -43,7 +43,8 @@ The help message can be revealed with command
       Networking debuging can be done useing curl:
       curl http://localhost:9200/_cluster/health\?pretty
 
-      To promote safe development practises pass the elasticsearch password as an enviromental variable ELASTICSEARCH_PASS.
+      To promote safe development practises pass the elasticsearch password as
+      an enviromental variable ELASTICSEARCH_PASS.
 
       optional arguments:
       -h, --help     show this help message and exit
@@ -57,3 +58,7 @@ The help message can be revealed with command
       -p PATH        Path to file where the timeline will be stored. Used with
                      _to_file
       -q TIME_PATH   Path to timestamp file
+
+There is an example configuration in the root of the repository. The password
+for the ElasticSearch API is not in the configuration file, but must be defined
+as an environemntal variable.
