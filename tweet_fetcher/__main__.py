@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Program for fetching documents using twitter API and pushing them to ElasticSearch. """
 import sys
+import os
 import argparse
 from configparser import ConfigParser
 import tweepy
@@ -14,7 +15,9 @@ def set_arguments():
         description = 'Fetch tweets Twitter´s developer API. ' +
                         'Push the tweets to elastic search.\n' +
                         'Networking debuging can be done useing curl: ' +
-                        'curl http://localhost:9200/_cluster/health\?pretty')
+                        'curl http://localhost:9200/_cluster/health\?pretty\n\n' +
+                        'To promote safe development practises pass the elasticsearch password ' +
+                        'as an enviromental variable ELASTICSEARCH_PASS.')
     parser.add_argument('-c', dest = 'config', type = str,
                         help = 'Path to the configuration file')
     parser.add_argument('-t', dest = 'target', type = str,
@@ -67,10 +70,26 @@ def main():
         try:
             index_name = config['Local Storage']['index_name']
         except KeyError:
-            print("No name for index defined. Put it in configuration or use -i handle.")
+            print("No name for index defined. Put it in configuration or use -i handle.\n" + 
+                  "Display the usage by -h.")
             return -1
     else:
         index_name = args.index
+
+    try:
+        elastic_pass = os.environ['ELASTICSEARCH_PASS']
+    except KeyError:
+        print('Please give the password of your ElasticSearch service as environmental ' +
+              'parameter: ELASTICSEARCH_PASS')
+        return -1
+
+    try:
+        elasitc_url = config['ElasticSearch']['url']
+    except KeyError:
+        print('Incomplete or broken configuration file [%s]. Missing:' % args.config)
+        print('    [ElasticSearch]')
+        print('    url = https://xxxxxxxxxx.xxx')
+        return -1
 
     twitter_api = register_tweepy_to_twitter(config['Twitter API'])
     if args.debug:
@@ -78,14 +97,24 @@ def main():
 
     if args.mode == "user":
         if args.target is None:
-            print("When using this mode a target user must be specified.\n")
+            print('When using this mode a target user must be specified.\n')
             parser.print_help()
             return -1
-        es = Elasticsearch()
+        es = Elasticsearch(
+            [elasitc_url],
+            http_auth=(config['ElasticSearch']['auth_user'], elastic_pass),
+            use_ssl = (config['ElasticSearch']['use_ssl'] == 'True'),
+            verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
+        )
         twitter_api.set_es_index(index_name, es, debug = args.debug)
         twitter_api.user_timeline_to_es(args.target, es_handle = es, debug = args.debug)
     elif args.mode == "list":
-        es = Elasticsearch()
+        es = Elasticsearch(
+            [elasitc_url],
+            http_auth=(config['ElasticSearch']['auth_user'], elastic_pass),
+            use_ssl = (config['ElasticSearch']['use_ssl'] == 'True'),
+            verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
+        )
         twitter_api.set_es_index(index_name, es, args.debug)
         storage_path = config['Local Storage']['users_path']
         twitter_api.list_timeline_to_es(storage_path, args.proc_count, es_handle = es,
@@ -95,7 +124,12 @@ def main():
             print("When using this mode a search term is required!\n")
             parser.print_help()
             return -1
-        es = Elasticsearch()
+        es = Elasticsearch(
+            [elasitc_url],
+            http_auth=(config['ElasticSearch']['auth_user'], elastic_pass),
+            use_ssl = (config['ElasticSearch']['use_ssl'] == 'True'),
+            verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
+        )
         twitter_api.set_es_index(index_name, es, args.debug)
         twitter_api.search_term_to_es(args.term, es_handle = es, debug = args.debug)
 
