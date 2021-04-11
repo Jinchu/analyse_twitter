@@ -87,6 +87,9 @@ class TwitterEsSchema(object):
         """ Add data from the twitter object to this object. Lossy operation. """
         self.timestamp = datetime.strptime(tweet_obj['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
         tweet_obj['@timestamp'] = self.timestamp.isoformat()
+
+        midnight_of_day = self.timestamp.replace(hour=0, minute=0, second=0, microsecond=0)
+        tweet_obj['time_of_day'] = int((self.timestamp - midnight_of_day).total_seconds())
         del tweet_obj['created_at']
 
         trimmed_user = self.trim_user(tweet_obj['user'])

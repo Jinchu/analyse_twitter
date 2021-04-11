@@ -75,6 +75,9 @@ class ElasticSearchTweepy(API):
                     "source": {
                         "type": "keyword"
                     },
+                    "time_of_day": {
+                        "type": "long"
+                    },
                     "favorited": {
                         "type": "boolean"
                     },
@@ -141,23 +144,14 @@ class ElasticSearchTweepy(API):
             for line in handle:
                 target_list.append(int(line))
 
-        for i in range(parallels):
-            if test:  # When testing don't fork. Main process will act as a child process
-                newpid = 0
-            else:
-                newpid = os.fork()
-
-            # Child prosess will handle every n:th entry in the target_list with dedicated offset.
-            if newpid == 0:
-                for j in range(len(target_list)):
-                    if j % parallels == i:
-                        try:
-                            self.user_timeline_to_es(target_list[j], es_handle = es_handle,
-                                                     debug = debug)
-                        except Exception as e:
-                            print(target_list[j])
-                            print(e)
-                            print('---')
+        for target in target_list:
+            try:
+                self.user_timeline_to_es(target, es_handle = es_handle,
+                                            debug = debug)
+            except Exception as e:
+                print(target)
+                print(e)
+                print('---')
 
         return True
 
