@@ -91,7 +91,18 @@ def main():
         print('    url = https://xxxxxxxxxx.xxx')
         return -1
 
-    twitter_api = register_tweepy_to_twitter(config['Twitter API'])
+    twitter_api_keys_tokens = {}
+    try:
+        twitter_api_keys_tokens['acc_token'] = os.environ['TWITTER_ACC_TOKEN']
+        twitter_api_keys_tokens['acc_secret'] = os.environ['TWITTER_ACC_SECRET']
+        twitter_api_keys_tokens['api_secret'] = os.environ['TWITTER_API_SECRET']
+        twitter_api_keys_tokens['api_key'] = os.environ['TWITTER_API_KEY']
+    except KeyError:
+        # Use the api keys and tokens from the configuration file only when no env are defined.
+        twitter_api_keys_tokens = config['Twitter API']
+
+    twitter_api = register_tweepy_to_twitter(twitter_api_keys_tokens)
+
     if args.debug:
         print(twitter_api.me().name)
 
