@@ -119,6 +119,18 @@ def main():
         )
         twitter_api.set_es_index(index_name, es, debug = args.debug)
         twitter_api.user_timeline_to_es(args.target, es_handle = es, debug = args.debug)
+    elif args.mode == "user_to_file":
+        if args.target is None:
+            print('When using this mode a target user must be specified.\n')
+            parser.print_help()
+            return -1
+        if args.path is None:
+            print("In this mode a path to storage file needs to be defined.")
+            parser.print_help()
+            return -1
+        twitter_api.index = index_name
+        twitter_api.user_timeline_to_file(args.target, file_path=args.path)
+
     elif args.mode == "list":
         es = Elasticsearch(
             [elasitc_url],
