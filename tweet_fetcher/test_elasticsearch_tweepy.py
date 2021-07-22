@@ -114,7 +114,7 @@ class TestUserTimelineToEs(unittest.TestCase):
         es.indices.exists = MagicMock(return_value = True)
         es.indices.create = MagicMock(return_value = True)
         test_api = MockTweepy()
-        test_api.set_es_index('test-a-tweet', es, debug = False)
+        test_api.set_this_es_index('test-a-tweet', es, debug = False)
         es.indices.create.assert_not_called()
 
         ret = test_api.user_timeline_to_es('mikko', es_handle = es)
@@ -129,7 +129,7 @@ class TestUserTimelineToEs(unittest.TestCase):
         es.indices.create = MagicMock(return_value = True)
         es.indices.create()
         test_api = MockTweepy()
-        test_api.set_es_index('test-a-tweet', es, debug = False)
+        test_api.set_this_es_index('test-a-tweet', es, debug = False)
         es.indices.create.assert_called()
 
         ret = test_api.user_timeline_to_es('mikko', es_handle = es)

@@ -118,7 +118,7 @@ def main():
             use_ssl = (config['ElasticSearch']['use_ssl'] == 'True'),
             verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
         )
-        twitter_api.set_es_index(index_name, es, debug = args.debug)
+        twitter_api.set_this_es_index(index_name, es, debug = args.debug)
         twitter_api.user_timeline_to_es(args.target, es_handle = es, debug = args.debug)
     elif args.mode == "user_to_file":
         if args.target is None:
@@ -139,7 +139,7 @@ def main():
             use_ssl = (config['ElasticSearch']['use_ssl'] == 'True'),
             verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
         )
-        twitter_api.set_es_index(index_name, es, args.debug)
+        twitter_api.set_this_es_index(index_name, es, args.debug)
         storage_path = config['Local Storage']['users_path']
         twitter_api.list_timeline_to_es(storage_path, args.proc_count, es_handle = es,
                                         debug = args.debug)
@@ -154,7 +154,7 @@ def main():
             use_ssl = (config['ElasticSearch']['use_ssl'] == 'True'),
             verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
         )
-        twitter_api.set_es_index(index_name, es, args.debug)
+        twitter_api.set_this_es_index(index_name, es, args.debug)
         twitter_api.search_term_to_es(args.term, es_handle = es, debug = args.debug)
 
     elif args.mode == "generate":
