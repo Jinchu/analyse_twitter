@@ -135,6 +135,19 @@ class TestUserTimelineToEs(unittest.TestCase):
         ret = test_api.user_timeline_to_es('mikko', es_handle = es)
         self.assertFalse(ret)
 
+
+class TestUserTimelineWithFile(unittest.TestCase):
+    def test_user_timeline_to_file(self):
+        test_api = MockTweepy()
+        test_file_path = './test_data/create_timeline_test'
+
+        ret = test_api.user_timeline_to_file('mikko', file_path=test_file_path)
+
+        self.assertTrue(ret.startswith('./test_data/create_timeline_test'))
+        self.assertTrue(os.path.exists(ret))
+        os.remove(ret)
+
+
 class TestSaveFriendsFile(unittest.TestCase):
     def test_save_friends_ids(self):
         storage_path = "./test_data/test_id_storage.txt"
