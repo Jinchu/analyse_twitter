@@ -76,12 +76,13 @@ def main():
     else:
         index_name = args.index
 
-    try:
-        elastic_pass = os.environ['ELASTICSEARCH_PASS']
-    except KeyError:
-        print('Please give the password of your ElasticSearch service as environmental ' +
-              'parameter: ELASTICSEARCH_PASS')
-        return -1
+    if not args.mode == "term_to_file" and not args.mode == "user_to_file":
+        try:
+            elastic_pass = os.environ['ELASTICSEARCH_PASS']
+        except KeyError:
+            print('Please give the password of your ElasticSearch service as environmental ' +
+                'parameter: ELASTICSEARCH_PASS')
+            return -1
 
     try:
         elasitc_url = config['ElasticSearch']['url']

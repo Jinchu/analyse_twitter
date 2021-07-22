@@ -8,7 +8,7 @@ import pickle
 import twitter_es_schema
 
 class ElasticSearchTweepy(API):
-    """Extion to tweepy's Twitter API. It provides Functions for integrating with ElasticSearch."""
+    """Extention to tweepy's Twitter API. It provides Functions for integrating with ElasticSearch."""
 
     def set_es_index(self, index_name, es_handle, debug = False):
         """ Set the index to be used. """
