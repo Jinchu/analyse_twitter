@@ -2,99 +2,18 @@ from tweepy import API
 from tweepy.error import RateLimitError
 from elasticsearch import Elasticsearch
 from datetime import timedelta, datetime
-import os
-import pickle
+from elasticsearch_index_conf import set_es_index
 
 import twitter_es_schema
 
 class ElasticSearchTweepy(API):
     """Extention to tweepy's Twitter API. It provides Functions for integrating with ElasticSearch."""
 
-    def set_es_index(self, index_name, es_handle, debug = False):
+    def set_this_es_index(self, index_name, es_handle, debug = False):
         """ Set the index to be used. """
         self.index = index_name
 
-        if es_handle.indices.exists(index=index_name):
-            if debug:
-                print("index %s exists" % index_name)
-        else:
-            if debug:
-                print("index %s must be created" % index_name)
-            self.create_index(es_handle)
-
-    def create_index(self, es_handle):
-        """ Creats a new index with given name. Uses standard config. """
-        request_body = {
-            "settings": {
-                "number_of_replicas": 0
-            },
-            "mappings": {
-                "properties": {
-                    "@timestamp": {
-                        "type": "date"
-                    },
-                    "entities": {
-                        "properties": {
-                            "hashtags": {
-                                "type": "keyword"
-                            },
-                            "urls": {
-                                "properties": {
-                                    "display_url": {
-                                        "type": "keyword"
-                                    },
-                                    "expanded_url": {
-                                        "type": "keyword"
-                                    },
-                                    "indices": {
-                                        "type": "long"
-                                    },
-                                    "url": {
-                                        "type": "keyword"
-                                    }
-                                }
-                            },
-                            "media": {
-                                "properties": {
-                                    "expanded_url": {
-                                        "type": "keyword"
-                                    },
-                                    "source_status_id_str": {
-                                        "type": "keyword"
-                                    },
-                                    "source_user_id_str": {
-                                        "type": "keyword"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "favorite_count": {
-                        "type": "long"
-                    },
-                    "source": {
-                        "type": "keyword"
-                    },
-                    "time_of_day": {
-                        "type": "long"
-                    },
-                    "favorited": {
-                        "type": "boolean"
-                    },
-                    "full_text": {
-                        "type": "text"
-                    },
-                    "id": {
-                        "type": "long"
-                    },
-                    "id_str": {
-                        "type": "keyword"
-                    }
-                }
-            }
-        }
-
-        return es_handle.indices.create(index = self.index, body = request_body)
+        set_es_index(self.index, es_handle=es_handle, debug=debug)
 
     def create_es_bulk_string_from_timeline(self, timeline):
         """ Create a string that can be pushed to ElasticSearch bulk API from a timeline. """
