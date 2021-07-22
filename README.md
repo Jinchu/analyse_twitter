@@ -35,7 +35,7 @@ container.
 
 The help message can be revealed with command
 
-      $ python3 tweet_fetcher -h
+      $ ELASTICSEARCH_PASS='secret_pw' python3 tweet_fetcher -h
       usage: tweet_fetcher [-h] [-c CONFIG] [-t TARGET] [-v] [-s TERM] [-m MODE]
       [-j PROC_COUNT] [-i INDEX] [-p PATH] [-q TIME_PATH]
 
@@ -62,3 +62,20 @@ The help message can be revealed with command
 There is an example configuration in the root of the repository. The password
 for the ElasticSearch API is not in the configuration file, but must be defined
 as an environemntal variable.
+
+In case you have recorded some tweets to files you can upload the files to an
+ElasticSearch cluster with the _tweet_uploader.py_ script. This script assumes
+that the files are all in a single folder and that the folder doesn't
+contain other files.
+
+      $ ELASTICSEARCH_PASS='secret_pw' python3 tweet_fetcher/tweet_uploader.py -h
+      usage: tweet_uploader.py [-h] [-c CONFIG] [-v] [-i INDEX] [-p PATH]
+
+      Upload tweets from file. Helper script
+
+      optional arguments:
+      -h, --help  show this help message and exit
+      -c CONFIG   Path to the configuration file
+      -v          Enable verbose output. Optional
+      -i INDEX    Name of the index to be used.
+      -p PATH     Path to file where the timeline was stored
