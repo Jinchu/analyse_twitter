@@ -8,7 +8,7 @@ import pickle
 import twitter_es_schema
 
 class ElasticSearchTweepy(API):
-    """Extion to tweepy's Twitter API. It provides Functions for integrating with ElasticSearch."""
+    """Extention to tweepy's Twitter API. It provides Functions for integrating with ElasticSearch."""
 
     def set_es_index(self, index_name, es_handle, debug = False):
         """ Set the index to be used. """
@@ -136,6 +136,26 @@ class ElasticSearchTweepy(API):
                 print("Clean run!")
         return True
 
+    def user_timeline_to_file(self, target_handle, file_path, _count=200, _tweet_mode="extended",
+                              debug=False):
+        """ Fetches timeline from a single user and stores the tweets to a file. """
+        file_path_stamp = ''
+
+        user_timeline = self.user_timeline(
+            target_handle, count=_count, tweet_mode=_tweet_mode)
+
+        if debug:
+            print("Fetched %d tweets from user: %s" % (len(user_timeline), target_handle))
+
+        if len(user_timeline) > 0:        # In case there was no results. Do nothing.
+            bulk_string = self.create_es_bulk_string_from_timeline(user_timeline)
+            file_path_stamp = file_path + datetime.now().strftime("-%y%m%d-%H%M%S") + '.txt'
+            with open(file_path_stamp, 'w') as handle:
+                handle.write(bulk_string)
+
+        return file_path_stamp
+
+
     def list_timeline_to_es(self, storage_path, parallels, es_handle, debug = False, test = False):
         """ Fetches timelines of all users listed in the given file. """
 
@@ -250,8 +270,26 @@ class ElasticSearchTweepy(API):
 
         return self.push_bulk_string_tweets_to_es(es_handle, bulk_string, debug = debug)
 
+    def write_fetched_tweets_to_file(self, file_path, tweets, time_stamp, debug=False):
+        """ Writes the tweets (e.g. from a search) to a text file formated as ElasticSearch string.
+        """
+        file_path_stamp = ''
+
+        if len(tweets) > 0:        # In case there was no results. Do nothing.
+            most_recent_id = tweets[0].id
+            bulk_string = self.create_es_bulk_string_from_timeline(tweets)
+
+            file_path_stamp = file_path + datetime.now().strftime("-%y%m%d-%H%M%S") + '.txt'
+            with open(file_path_stamp, 'w') as handle:
+                handle.write(bulk_string)
+
+            with open(time_stamp, 'w') as handle:
+                handle.write(str(most_recent_id))
+
+        return file_path_stamp
+
     def search_term_to_file(self, search_term, file_path, time_stamp, debug=False):
-        """ Searches tweets matching the given search term and store them in pickle file. """
+        """ Searches tweets matching the given search term and store them in a text file. """
 
         try:
             with open(time_stamp, 'r') as handle:
@@ -263,19 +301,10 @@ class ElasticSearchTweepy(API):
         results = self.fetch_search_results_from_twitter(search_term,
                                                          most_recent_id = most_recent,
                                                          debug = debug)
-        file_path_stamp = ''
-        if len(results) > 0:        # In case there was no results. Do nothing.
-            most_recent_id = results[0].id
-            bulk_string = self.create_es_bulk_string_from_timeline(results)
 
-            file_path_stamp = file_path + datetime.now().strftime("-%y%m%d-%H%M%S") + '.txt'
-            with open(file_path_stamp, 'w') as handle:
-                handle.write(bulk_string)
-
-            with open(time_stamp, 'w') as handle:
-                handle.write(str(most_recent_id))
-
-        return file_path_stamp
+        return self.write_fetched_tweets_to_file(
+            file_path=file_path, tweets=results, time_stamp=time_stamp
+        )
 
     def clean_up_friends_file(self, storage_path, debug=False):
         """ Cleans up the generated file of user_ids. For example users that have not tweeted for
@@ -292,6 +321,9 @@ class ElasticSearchTweepy(API):
                 except Exception as e:
                     print(e)
 
+                if len(user_timeline) == 0:
+                    print('%s  has now timeline?' % line)
+                    continue
                 since_active = datetime.now() - user_timeline[0].created_at
                 if since_active < treshold:
                     saved.append(int(line))
