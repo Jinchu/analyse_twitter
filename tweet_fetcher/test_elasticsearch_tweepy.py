@@ -19,6 +19,9 @@ class MockTweepy(elasticsearch_tweepy.ElasticSearchTweepy):
             return [67, 96, 22]
 
     def user_timeline(self, target_handle, count = 2, tweet_mode = 'extended'):
+        if target_handle == 0:
+            from tweepy.error import RateLimitError
+            raise RateLimitError(reason=88)
         with open('./test_data/test_timeline', 'rb') as handle:
             test_timeline = pickle.load(handle)
         return test_timeline
@@ -55,9 +58,14 @@ class TestListTimeline(unittest.TestCase):
         es.indices.exists = MagicMock(return_value = True)
         es.indices.create = MagicMock(return_value = True)
 
-        test_api.user_timeline_to_es = MagicMock(return_value = True)
 
+        test_file_path = './test_data/test_list_ratelimit.txt'
+        retval = test_api.list_timeline_to_es(test_file_path, 1, es_handle = es, test = True)
+        self.assertTrue(test_api.simulate_sleep == [61, 244, 549, 976, 1525])
+
+        test_api.user_timeline_to_es = MagicMock()
         test_file_path = './test_data/test_user_list.txt'
+
         retval = test_api.list_timeline_to_es(test_file_path, 1, es_handle = es, test = True)
         self.assertTrue(retval)
         test_api.user_timeline_to_es.assert_called_with(966444231249317889, es_handle = es,

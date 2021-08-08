@@ -3,8 +3,11 @@ from tweepy.error import RateLimitError
 from elasticsearch import Elasticsearch
 from datetime import timedelta, datetime
 from elasticsearch_index_conf import set_es_index
+from time import sleep
 
 import twitter_es_schema
+
+MAX_TRIES = 5
 
 class ElasticSearchTweepy(API):
     """Extention to tweepy's Twitter API. It provides Functions for integrating with ElasticSearch."""
@@ -74,23 +77,48 @@ class ElasticSearchTweepy(API):
 
         return file_path_stamp
 
-
-    def list_timeline_to_es(self, storage_path, parallels, es_handle, debug = False, test = False):
+    def list_timeline_to_es(self, storage_path, parallels, es_handle, debug= False, test = False):
         """ Fetches timelines of all users listed in the given file. """
 
+        if test:
+            self.simulate_sleep = []
         target_list = []
         with open(storage_path, 'r') as handle:
             for line in handle:
                 target_list.append(int(line))
 
         for target in target_list:
-            try:
-                self.user_timeline_to_es(target, es_handle = es_handle,
-                                            debug = debug)
-            except Exception as e:
-                print(target)
-                print(e)
-                print('---')
+            i = 0
+            while i < MAX_TRIES:
+                try:
+                    self.user_timeline_to_es(target, es_handle=es_handle,
+                                             debug=debug)
+                    break
+                except RateLimitError:
+                    print('{} | Ratelimit.. Waiting...'.format(
+                        str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                    )
+                    )
+                    i += 1
+                    # Note: This is NOT exponential back off, but it suits well here.
+                    sleep_seconds = 61 * (i * i)
+                    print('{} | Sleeping for {} seconds.'.format(
+                        str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
+                        sleep_seconds
+                    )
+                    )
+                    if not test:
+                        sleep(sleep_seconds)
+                    else:
+                        self.simulate_sleep.append(sleep_seconds)
+
+                except BaseException as e:
+                    print('{} | {}: {}'.format(
+                        str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')), target, e
+                    )
+                    )
+                    print('----')
+                    break
 
         return True
 
