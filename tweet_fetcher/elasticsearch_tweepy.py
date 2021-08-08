@@ -241,7 +241,7 @@ class ElasticSearchTweepy(API):
                     print(e)
 
                 if len(user_timeline) == 0:
-                    print('%s  has now timeline?' % line)
+                    print('%s  has no timeline?' % line)
                     continue
                 since_active = datetime.now() - user_timeline[0].created_at
                 if since_active < treshold:
