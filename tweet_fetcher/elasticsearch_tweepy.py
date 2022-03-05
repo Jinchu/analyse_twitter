@@ -253,7 +253,7 @@ class ElasticSearchTweepy(API):
             file_path=file_path, tweets=results, time_stamp=time_stamp
         )
 
-    def clean_up_friends_file(self, storage_path, debug=False):
+    def clean_up_friends_file(self, storage_path, debug=True, test=False):
         """ Cleans up the generated file of user_ids. For example users that have not tweeted for
         six months will be removed. """
         treshold = timedelta(days=180)
@@ -261,12 +261,35 @@ class ElasticSearchTweepy(API):
 
         with open(storage_path, 'r') as handle:
             for line in handle:
-                if debug:
-                    print("Checking: %s" % line.strip())
-                try:
-                    user_timeline = self.user_timeline(int(line), count=2)
-                except Exception as e:
-                    print(e)
+                i = 0
+                while i < MAX_TRIES:
+                    try:
+
+                        print('{} | Checking: {}'.format(
+                            str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
+                            line.strip()
+                        )
+                        )
+                        user_timeline = self.user_timeline(int(line), count=2)
+                        break
+                    except RateLimitError:
+                        print('{} | Ratelimit.. Waiting...'.format(
+                            str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                        )
+                        )
+                        i += 1
+                        # Note: This is NOT exponential back off, but it suits well here.
+                        sleep_seconds = 61 * (i * i)
+                        print('{} | Sleeping for {} seconds.'.format(
+                            str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
+                            sleep_seconds
+                        )
+                        )
+                        if not test:
+                            sleep(sleep_seconds)
+                    except Exception as e:
+                        print(e)
+                        break
 
                 if len(user_timeline) == 0:
                     print('%s  has no timeline?' % line)
