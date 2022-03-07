@@ -119,7 +119,8 @@ def main():
             verify_certs = (config['ElasticSearch']['verify_certs'] == 'True')
         )
         twitter_api.set_this_es_index(index_name, es, debug = args.debug)
-        twitter_api.user_timeline_to_es(args.target, es_handle = es, debug = args.debug)
+        twitter_api.user_timeline_to_es(args.target, es_handle = es,
+                                        with_id = False, debug = args.debug)
     elif args.mode == "user_to_file":
         if args.target is None:
             print('When using this mode a target user must be specified.\n')
