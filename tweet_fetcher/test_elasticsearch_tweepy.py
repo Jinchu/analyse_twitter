@@ -8,6 +8,19 @@ from time import sleep
 
 import elasticsearch_tweepy
 
+
+class MockResp():
+    def __init__(self):
+        self.status_code = '429',
+        self.reason = 'Too Many Requests'
+
+    def json(self):
+        dummy = {
+            'errors': ['429'],
+        }
+        return dummy
+
+
 class MockTweepy(elasticsearch_tweepy.ElasticSearchTweepy):
     def __init__(self):
         self.index = -1
@@ -18,20 +31,30 @@ class MockTweepy(elasticsearch_tweepy.ElasticSearchTweepy):
         elif screen_name == "joni":
             return [67, 96, 22]
 
-    def user_timeline(self, target_handle, count = 2, tweet_mode = 'extended'):
-        if target_handle == 0:
-            from tweepy.error import RateLimitError
-            raise RateLimitError(reason=88)
+    def user_timeline(self, user_id='5557', screen_name='', count = 2, tweet_mode = 'extended'):
+        if user_id != '5557':
+            if user_id == 0:
+                response = MockResp()
+                from tweepy.errors import TooManyRequests
+                raise TooManyRequests(response)
+        else:
+            if screen_name == 0:
+                response = MockResp()
+                from tweepy.errors import TooManyRequests
+                raise TooManyRequests(response)
+
         with open('./test_data/test_timeline', 'rb') as handle:
             test_timeline = pickle.load(handle)
         return test_timeline
+
 
     def search(self, search_term, count = 20, result_type = 'recent',
                max_id = '-1', since_id = '-1'):
         self.latest_since = since_id
         if search_term == 'Rate limit':
-            from tweepy.error import RateLimitError
-            raise RateLimitError(reason=88)
+            response = MockResp()
+            from tweepy.errors import TooManyRequests
+            raise TooManyRequests(response)
         if max_id == -1:
             with open('./test_data/test_timeline', 'rb') as handle:
                 test_timeline = pickle.load(handle)
@@ -125,7 +148,7 @@ class TestUserTimelineToEs(unittest.TestCase):
         test_api.set_this_es_index('test-a-tweet', es, debug = False)
         es.indices.create.assert_not_called()
 
-        ret = test_api.user_timeline_to_es('mikko', es_handle = es)
+        ret = test_api.user_timeline_to_es('mikko', es_handle = es, with_id=False)
         self.assertTrue(ret)
 
     def test_user_timeline_to_es_fail(self):
@@ -140,7 +163,7 @@ class TestUserTimelineToEs(unittest.TestCase):
         test_api.set_this_es_index('test-a-tweet', es, debug = False)
         es.indices.create.assert_called()
 
-        ret = test_api.user_timeline_to_es('mikko', es_handle = es)
+        ret = test_api.user_timeline_to_es('mikko', es_handle = es, with_id=False)
         self.assertFalse(ret)
 
 

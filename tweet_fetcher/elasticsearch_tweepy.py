@@ -1,10 +1,10 @@
 from tweepy import API
-from tweepy.error import RateLimitError
 from elasticsearch import Elasticsearch
 from datetime import timedelta, datetime
 from elasticsearch_index_conf import set_es_index
 from time import sleep
 
+import tweepy.errors
 import twitter_es_schema
 
 MAX_TRIES = 5
@@ -35,12 +35,16 @@ class ElasticSearchTweepy(API):
         return bulk_string
 
     def user_timeline_to_es(self, target_handle, es_handle, _count=200,
-                            _tweet_mode="extended", debug=False):
+                            with_id=True, _tweet_mode="extended", debug=False):
         """ Fetches timeline from a single user and pushes the tweets using ElasticSearch
         Bulk command. """
 
-        user_timeline = self.user_timeline(
-            target_handle, count=_count, tweet_mode=_tweet_mode)
+        if with_id:
+            user_timeline = self.user_timeline(
+                user_id=target_handle, count=_count, tweet_mode=_tweet_mode)
+        else:
+            user_timeline = self.user_timeline(
+                screen_name=target_handle, count=_count, tweet_mode=_tweet_mode)
 
         if debug:
             print("Fetched %d tweets from user: %s" % (len(user_timeline), target_handle))
@@ -87,14 +91,14 @@ class ElasticSearchTweepy(API):
             for line in handle:
                 target_list.append(int(line))
 
-        for target in target_list:
+        for target_id in target_list:
             i = 0
             while i < MAX_TRIES:
                 try:
-                    self.user_timeline_to_es(target, es_handle=es_handle,
+                    self.user_timeline_to_es(target_id, es_handle=es_handle,
                                              debug=debug)
                     break
-                except RateLimitError:
+                except tweepy.errors.TooManyRequests:
                     print('{} | Ratelimit.. Waiting...'.format(
                         str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                     )
@@ -112,9 +116,9 @@ class ElasticSearchTweepy(API):
                     else:
                         self.simulate_sleep.append(sleep_seconds)
 
-                except BaseException as e:
+                except BaseException as ex:
                     print('{} | {}: {}'.format(
-                        str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')), target, e
+                        str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')), target_id, ex
                     )
                     )
                     print('----')
@@ -178,7 +182,7 @@ class ElasticSearchTweepy(API):
             try:
                 current_results = self.search(search_term, count=100, result_type='recent',
                                               max_id=current_id, since_id=most_recent_id)
-            except RateLimitError:
+            except tweepy.errors.TooManyRequests:
                 print('Rate limit exceeded!')
                 break
 
