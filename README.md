@@ -23,13 +23,13 @@ container.
 ## Prerequisites
 
 - [Python3](https://docs.python.org/3/tutorial/introduction.html#)
+- [pip](https://pypi.org/project/pip/)
 - [Tweepy](https://github.com/tweepy/tweepy)
-
-      pip install tweepy
-
 - [Python ElasticSearch Client](https://github.com/elastic/elasticsearch-py)
 
-      python3 -m pip install elasticsearch
+I have gathered the exact versions I use to requirements.txt. Please, note that fresh versions
+of the Python ElasticSearch Client might not be compatible with OpenSearch
+(Amazon's for of the Elastic Search)
 
 ## Usage
 
